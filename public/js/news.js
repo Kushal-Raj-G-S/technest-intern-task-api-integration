@@ -12,7 +12,6 @@ const fetchNewsData = async (category = 'technology') => {
     if (loader) loader.style.display = 'flex';
     newsInfo.innerHTML = '';
 
-    const apiKey = '2a061efab0bf42188b7a29d8e806a187';
     const url = `https://technest-6woj.onrender.com/news?category=${category}`;
 
     try {
