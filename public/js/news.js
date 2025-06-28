@@ -12,7 +12,7 @@ const fetchNewsData = async (category = 'technology') => {
     if (loader) loader.style.display = 'flex';
     newsInfo.innerHTML = '';
 
-    const url = https://technest-6woj.onrender.com/news?category=${category};
+    const url = `https://technest-6woj.onrender.com/news?category=${category}`;
 
     try {
         const response = await fetch(url);
@@ -21,35 +21,17 @@ const fetchNewsData = async (category = 'technology') => {
         if (loader) loader.style.display = 'none';
 
         if (data.articles && data.articles.length > 0) {
-            const checkPromises = data.articles.map(article => {
-                if (article.urlToImage) {
-                    return checkImage(article.urlToImage).then(ok => ({ article, ok }));
-                }
-                return Promise.resolve({ article, ok: true });
-            });
+            const articlesHTML = data.articles.map((article, index) => `
+                <div class="article-card animated-element" style="animation-delay: ${index * 0.05}s;">
+                    <h3>${article.title || 'No title available'}</h3>
+                    ${article.urlToImage ? `<img src="${article.urlToImage}" alt="${article.title}" style="width: 100%; border-radius: 8px; margin-bottom: 15px;">` : ''}
+                    <p>${article.description || 'No description available'}</p>
+                    <p><small>Source: ${article.source.name || 'Unknown'} • ${new Date(article.publishedAt).toLocaleDateString()}</small></p>
+                    <a href="${article.url}" target="_blank">Read full article</a>
+                </div>
+            `).join('');
 
-            const results = await Promise.all(checkPromises);
-
-            const validArticles = results
-                .filter(result => result.ok)
-                .map((result, index) => {
-                    const article = result.article;
-                    return 
-                        <div class="article-card animated-element" style="animation-delay: ${index * 0.1}s;">
-                            <h3>${article.title || 'No title available'}</h3>
-                            ${article.urlToImage ? <img src="${article.urlToImage}" alt="${article.title}" style="width: 100%; border-radius: 8px; margin-bottom: 15px;"> : ''}
-                            <p>${article.description || 'No description available'}</p>
-                            <p><small>Source: ${article.source.name || 'Unknown'} • ${new Date(article.publishedAt).toLocaleDateString()}</small></p>
-                            <a href="${article.url}" target="_blank">Read full article</a>
-                        </div>
-                    ;
-                });
-
-            if (validArticles.length > 0) {
-                newsInfo.innerHTML = validArticles.join('');
-            } else {
-                newsInfo.innerHTML = '<div class="no-results"><i class="fas fa-info-circle"></i> No loadable news found for this category. Try another category.</div>';
-            }
+            newsInfo.innerHTML = articlesHTML;
         } else {
             newsInfo.innerHTML = '<div class="no-results"><i class="fas fa-info-circle"></i> No news found for this category. Try another category.</div>';
         }
