@@ -8,7 +8,7 @@ if (loader) {
     loader.style.display = 'none';
 }
 
-const fetchNewsData = async (category = 'technology') => {
+const fetchNewsData = async (category = 'sports') => {
     // Show loader
     if (loader) {
         loader.style.display = 'flex';
@@ -18,15 +18,10 @@ const fetchNewsData = async (category = 'technology') => {
     newsInfo.innerHTML = '';
     
     const apiKey = '2a061efab0bf42188b7a29d8e806a187';
-    const url = 'https://newsapi.org/v2/top-headlines?category=${category}&apiKey=${apiKey}';
+    const url = `https://newsapi.org/v2/top-headlines?category=${category}&apiKey=${apiKey}`;
     
     try {
-        const response = await fetch(url, {
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            }
-        });
+        const response = await fetch(url);
         const data = await response.json();
         
         // Hide loader
