@@ -18,10 +18,15 @@ const fetchNewsData = async (category = 'technology') => {
     newsInfo.innerHTML = '';
     
     const apiKey = '2a061efab0bf42188b7a29d8e806a187';
-    const url = `https://newsapi.org/v2/top-headlines?category=${category}&apiKey=${apiKey}`;
+    const url = 'https://newsapi.org/v2/top-headlines?category=${category}&apiKey=${apiKey}';
     
     try {
-        const response = await fetch(url);
+        const response = await fetch(url, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        });
         const data = await response.json();
         
         // Hide loader
