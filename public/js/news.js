@@ -13,7 +13,7 @@ const fetchNewsData = async (category = 'technology') => {
     newsInfo.innerHTML = '';
 
     const apiKey = '2a061efab0bf42188b7a29d8e806a187';
-    const url = `https://newsapi.org/v2/everything?q=${category}&sortBy=publishedAt&language=en&apiKey=${apiKey}`;
+    const url = `https://technest-6woj.onrender.com/news?category=${category}`;
 
     try {
         const response = await fetch(url);
