@@ -1,0 +1,12 @@
+[build]
+publish = "public"
+
+[[redirects]]
+  from = "/news"
+  to = "/news.html"
+  status = 200
+
+[[redirects]]
+  from = "/weather"
+  to = "/weather.html"
+  status = 200
